@@ -1,0 +1,25 @@
+package com.planco.plancoapi.resource;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.planco.plancoapi.model.Categoria;
+import com.planco.plancoapi.repository.CategoriasRepository;
+
+@RestController
+@RequestMapping("/categorias")
+public class CategoriaResource {
+	
+	@Autowired //procurar uma imprementação
+	private CategoriasRepository categoriasRepository;
+	
+	@GetMapping
+	public List<Categoria> listar(){
+		return categoriasRepository.findAll();
+	}
+
+}
