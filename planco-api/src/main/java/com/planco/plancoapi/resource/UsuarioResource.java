@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.planco.plancoapi.event.RecursoCriadoEvent;
 import com.planco.plancoapi.model.Usuario;
 
 import com.planco.plancoapi.repository.UsuarioRepository;
@@ -29,6 +31,9 @@ public class UsuarioResource {
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 	
+	@Autowired
+	private ApplicationEventPublisher publisher;
+	
 	@GetMapping
 	public List<Usuario> listar(){
 		return usuarioRepository.findAll();
@@ -39,13 +44,9 @@ public class UsuarioResource {
 	public ResponseEntity <Usuario> criar (@RequestBody Usuario usuario,  HttpServletResponse response){
 		Usuario usuarioSalva = usuarioRepository.save(usuario);
 		
-		// para indicar o location da categoria cadastrada
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}")
-				.buildAndExpand(usuarioSalva.getCodigo()).toUri();
-			response.setHeader("Location", uri.toASCIIString());
-	
-	
-			return ResponseEntity.created(uri).body(usuarioSalva);
+		publisher.publishEvent(new RecursoCriadoEvent(this, response, usuarioSalva.getCodigo()));
+		
+		return ResponseEntity.status(HttpStatus.CREATED).body(usuarioSalva);
 	}
 	
 	@GetMapping("/{codigo}")
