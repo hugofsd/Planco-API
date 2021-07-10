@@ -82,8 +82,15 @@ public class PessoaResource {
 		
 				//salva no bd
 			  return this.pessoaRepository.save(pessoaSalva);
-
-		}
+    }
+	
+	@PutMapping("/{codigo}/ativo")
+	@ResponseStatus(HttpStatus.NO_CONTENT)// precisa retornar nd quando atualizar
+	public void atualizarativo(@PathVariable Long codigo, @RequestBody Boolean ativo) {
+		
+		pessoaService.atualizarPropriedadeAtivo (codigo, ativo);
+	}
+	
 	
 	
 	
