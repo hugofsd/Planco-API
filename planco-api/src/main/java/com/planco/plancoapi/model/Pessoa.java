@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name= "usuario")
-public class Usuario {
+@Table(name= "pessoa")
+public class Pessoa {
 	
 	
 	@Id
@@ -87,7 +87,7 @@ public class Usuario {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuario other = (Usuario) obj;
+		Pessoa other = (Pessoa) obj;
 		if (codigo == null) {
 			if (other.codigo != null)
 				return false;
