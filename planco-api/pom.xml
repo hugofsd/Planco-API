@@ -44,6 +44,13 @@
 	       <scope>runtime</scope>
         </dependency>
         
+        <!-- Hibernate Java 8 Support -->
+		<dependency>
+    		<groupId>org.hibernate</groupId>
+    		<artifactId>hibernate-java8</artifactId>
+		</dependency>
+		
+        
       
 	</dependencies>
 
