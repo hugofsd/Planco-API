@@ -32,8 +32,7 @@ public class Pessoa {
 	//notnull
 	private Boolean ativo;
 	
-	
-	
+
 	@Embedded
 	private Endereco endereco;
 

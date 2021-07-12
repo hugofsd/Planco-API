@@ -31,7 +31,7 @@ import com.planco.plancoapi.service.PessoaService;
 
 
 @RestController
-@RequestMapping("/pessoa")
+@RequestMapping("/pessoas")
 public class PessoaResource {
 	
 	@Autowired

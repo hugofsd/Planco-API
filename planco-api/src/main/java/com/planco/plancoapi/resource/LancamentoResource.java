@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.planco.plancoapi.model.Lancamento;
 import com.planco.plancoapi.repository.LancamentoRepository;
+import com.planco.plancoapi.repository.filter.LancamentoFilter;
+import com.planco.plancoapi.service.LancamentoService;
 
 @RestController
 @RequestMapping("/lancamentos")
@@ -24,9 +26,12 @@ public class LancamentoResource {
 	@Autowired
 	private LancamentoRepository lancamentoRepository;
 	
+	@Autowired
+	private LancamentoService lancamentoService;
+	
 	@GetMapping
-	public List<Lancamento> listar(){
-		return lancamentoRepository.findAll();
+	public List<Lancamento> pesquisar(LancamentoFilter lancamentoFilter){
+		return lancamentoRepository.filtrar(lancamentoFilter);
 	}
 	
 	@GetMapping	("/{codigo}")
@@ -42,6 +47,8 @@ public class LancamentoResource {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public  ResponseEntity<Lancamento> criar(@RequestBody Lancamento lancamento){
+		
+		//colocar uma regra no front de n salvar pessoa inativa
 		Lancamento lancamentoSalva = lancamentoRepository.save(lancamento);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(lancamentoSalva);
