@@ -7,12 +7,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
-
 @Configuration
 @EnableWebSecurity //habilitando segurança
-public class SecurityConfig extends WebSecurityConfigurerAdapter{
-	
-	
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
 	//Para este caso, podemos passar entre chaves o ID do Encoder que desejamos utilizar, como a senha não está criptografada, vamos utilizar o {noop}.
     //Caso nossa senha estivesse criptografa com BCrypt (por exemplo), poderíamos utilizar {bcrypt}
 
@@ -22,7 +20,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		//user, senha, roles(permissão)
 		 .withUser("admin").password("{noop}admin").roles("ROLE");
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
@@ -32,8 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.httpBasic().and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		.csrf().disable();
-		
-		
+
+
 	}
-	
 }
