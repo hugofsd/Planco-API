@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.planco.plancoapi.model.Lancamento;
+import com.planco.plancoapi.model.Pessoa;
 import com.planco.plancoapi.repository.LancamentoRepository;
 import com.planco.plancoapi.repository.filter.LancamentoFilter;
 import com.planco.plancoapi.service.LancamentoService;
@@ -63,6 +65,14 @@ public class LancamentoResource {
 		this.lancamentoRepository.deleteById(codigo);
 	}
 	
+	@PutMapping("/{codigo}") //ATAULIZAÇÃO COMPLETA
+	public ResponseEntity<Lancamento> atualizar(@PathVariable Long codigo, @RequestBody Lancamento lancamento) {
+
+		Lancamento lancamentoSalva = lancamento.atualizar(codigo, lancamento);
+		
+				//salva no bd
+			  return ResponseEntity.ok(lancamentoSalva);
+    }
 	
 
 }

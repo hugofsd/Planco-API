@@ -2,6 +2,7 @@ package com.planco.plancoapi.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,27 @@ public class LancamentoService {
 	}
 	 * 
 	 * */
+	
+	public Lancamento atualizar(Long codigo, Lancamento lancamento) {
+		Lancamento lancamentoSalva = buscarLancamentoCodigo(codigo);
+			// Tirando o codigo
+			  BeanUtils.copyProperties(lancamento, lancamentoSalva, "codigo");
+		
+			return lancamentoRepository.save(lancamentoSalva); 
+	}
+	
+	
+	//Metodo refatorado : Refector > Extratec Metodh
+		public Lancamento buscarLancamentoCodigo(Long codigo) {
+			Lancamento lancamentoSalva = this.lancamentoRepository.findById(codigo)
+				      .orElseThrow(() -> new EmptyResultDataAccessException(1));
+
+			  if (lancamentoSalva.getDescricao() == null) {
+				  throw new EmptyResultDataAccessException(1);
+				}
+			return lancamentoSalva;
+		}
+
 	
 
 }

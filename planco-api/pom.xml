@@ -50,6 +50,7 @@
     		<artifactId>hibernate-java8</artifactId>
 		</dependency>
 		
+		   <!-- Segurança -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>

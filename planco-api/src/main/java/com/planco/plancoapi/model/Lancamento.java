@@ -142,6 +142,11 @@ public class Lancamento {
 			return false;
 		return true;
 	}
+
+	public Lancamento atualizar(Long codigo2, Lancamento lancamento) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 
