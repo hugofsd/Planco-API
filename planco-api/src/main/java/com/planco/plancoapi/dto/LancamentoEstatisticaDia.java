@@ -30,7 +30,7 @@ public class LancamentoEstatisticaDia {
 	public LocalDate getDia() {
 		return dia;
 	} 
-
+ 
 	public void setDia(LocalDate dia) {
 		this.dia = dia;
 	}
