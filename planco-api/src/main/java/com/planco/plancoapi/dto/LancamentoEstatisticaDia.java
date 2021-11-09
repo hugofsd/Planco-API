@@ -43,8 +43,4 @@ public class LancamentoEstatisticaDia {
 		this.total = total;
 	}
 	
-	
-	
-	
-
 }
