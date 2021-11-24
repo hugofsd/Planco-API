@@ -1,5 +1,7 @@
 package com.planco.plancoapi.resource;
 
+import java.time.LocalDate;
+import java.util.List;
 //import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.planco.plancoapi.dto.LancamentoEstatisticaCategoria;
+import com.planco.plancoapi.dto.LancamentoEstatisticaDia;
 import com.planco.plancoapi.model.Lancamento;
 import com.planco.plancoapi.model.Pessoa;
 import com.planco.plancoapi.repository.LancamentoRepository;
@@ -34,10 +38,24 @@ public class LancamentoResource {
 	@Autowired
 	private LancamentoService lancamentoService;
 	
+	@GetMapping("/estatisticas/por-categoria")
+	public List<LancamentoEstatisticaCategoria> porCategoria() {
+		return this.lancamentoRepository.porCategoria(LocalDate.now());
+	}
+	
+	@GetMapping("/estatisticas/por-dia")
+	public List<LancamentoEstatisticaDia> porDia() {
+		return this.lancamentoRepository.porDia(LocalDate.now());
+	}
+	
 	@GetMapping
 	public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable){
 		return lancamentoRepository.filtrar(lancamentoFilter, pageable);
 	}
+//	@GetMapping("/codigo/{codigo}")
+	//public Page<Lancamento> codigo(LancamentoFilter lancamentoFilter, @PathVariable Long codigo, Pageable pageable){
+	//	return lancamentoRepository.filtrar(lancamentoFilter, pageable);
+//	}
 	 
 	@GetMapping	("/{codigo}")
 	public ResponseEntity<Lancamento> buscarPeloCodigo (@PathVariable Long codigo){
@@ -73,6 +91,8 @@ public class LancamentoResource {
 				//salva no bd
 			  return ResponseEntity.ok(lancamentoSalva);
     }
+	
+	
 	
 
 }

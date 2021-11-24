@@ -42,6 +42,7 @@ public class ResourceServerConfig  extends WebSecurityConfigurerAdapter  {
 		  .antMatchers("/categorias").permitAll() // qualquer um pode acessar
 		  .antMatchers("/lancamentos").permitAll() // qualquer um pode acessar
 		  .antMatchers("/pessoas").permitAll() // qualquer um pode acessar
+		  .antMatchers("/empresas").permitAll() // qualquer um pode acessar
 	//	 .anyRequest().authenticated() // o usuario precisa estar validado para fazer qualquer requisição
 		  .and().httpBasic().
   and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

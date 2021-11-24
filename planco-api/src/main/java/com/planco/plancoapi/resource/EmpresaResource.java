@@ -1,15 +1,12 @@
 package com.planco.plancoapi.resource;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,78 +18,76 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.planco.plancoapi.event.RecursoCriadoEvent;
+import com.planco.plancoapi.model.Empresa;
 import com.planco.plancoapi.model.Pessoa;
-
-import com.planco.plancoapi.repository.PessoaRepository;
-import com.planco.plancoapi.repository.filter.PessoaFilter;
-import com.planco.plancoapi.service.PessoaService;
+import com.planco.plancoapi.repository.EmpresaRepository;
+import com.planco.plancoapi.repository.filter.EmpresaFilter;
+import com.planco.plancoapi.service.EmpresaService;
 
 
 @RestController
-@RequestMapping("/pessoas")
-public class PessoaResource {
+@RequestMapping("/empresas")
+public class EmpresaResource {
 	
 	@Autowired
-	private PessoaService pessoaService;
+	private EmpresaService empresaService;
 	
 	@Autowired
-	private PessoaRepository pessoaRepository;
+	private EmpresaRepository empresaRepository;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping
-	public List<Pessoa> listar(PessoaFilter pessoaFilter){
-		return pessoaRepository.filtrar(pessoaFilter);
+	public List<Empresa> listar(EmpresaFilter empresaFilter){
+		return empresaRepository.filtrar(empresaFilter);
 	}
 	
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity <Pessoa> criar (@RequestBody Pessoa pessoa,  HttpServletResponse response){
-		Pessoa pessoaSalva = pessoaRepository.save(pessoa);
+	public ResponseEntity <Empresa> criar (@RequestBody Empresa empresa,  HttpServletResponse response){
+		Empresa empresaSalva = empresaRepository.save(empresa);
 		
-		publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoaSalva.getCodigo()));
+		publisher.publishEvent(new RecursoCriadoEvent(this, response, empresaSalva.getCodigo()));
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(pessoaSalva);
+		return ResponseEntity.status(HttpStatus.CREATED).body(empresaSalva);
 	}
 	
+	
 	@GetMapping("/{codigo}")
-	public ResponseEntity <Pessoa> buscarPeloCodigo(@PathVariable Long codigo) {
+	public ResponseEntity <Empresa> buscareEmpresaPeloCodigo(@PathVariable Long codigo) {
 		
-      Optional<Pessoa> pessoa =this.pessoaRepository.findById(codigo);
-      if(pessoa.isPresent())
-    	  return ResponseEntity.ok(pessoa.get());
+      Optional<Empresa> empresa =this.empresaRepository.findById(codigo);
+      if(empresa.isPresent())
+    	  return ResponseEntity.ok(empresa.get());
       else
     	  return ResponseEntity.notFound().build();
 	}
 	
-	
 	@DeleteMapping("/{codigo}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long codigo ) {
-		this.pessoaRepository.deleteById(codigo);
+		this.empresaRepository.deleteById(codigo);
 	}
 	
+	
 	@PutMapping("/{codigo}") //ATAULIZAÇÃO COMPLETA
-	public Pessoa atualizar(@PathVariable Long codigo, @RequestBody Pessoa pessoa	) {
+	public Empresa atualizar(@PathVariable Long codigo, @RequestBody Empresa empresa	) {
 
-		Pessoa pessoaSalva = pessoaService.atualizar(codigo, pessoa);
+		Empresa empresaSalva = empresaService.atualizar(codigo, empresa);
 		
 				//salva no bd
-			  return this.pessoaRepository.save(pessoaSalva);
+			  return this.empresaRepository.save(empresaSalva);
     }
+	
 	
 	@PutMapping("/{codigo}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)// precisa retornar nd quando atualizar
 	public void atualizarativo(@PathVariable Long codigo, @RequestBody Boolean ativo) {
 		
-		pessoaService.atualizarPropriedadeAtivo (codigo, ativo);
+		empresaService.atualizarPropriedadeAtivo (codigo, ativo);
 	}
-	
-	
-	
 	
 }

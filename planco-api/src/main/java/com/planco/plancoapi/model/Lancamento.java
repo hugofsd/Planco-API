@@ -43,6 +43,11 @@ public class Lancamento {
 	private Categoria categoria;
 	
 	@ManyToOne //muitos para 1
+	@JoinColumn(name = "codigo_empresa")//coluna responsavel pelo relacionamento
+	private Empresa empresa;
+	
+	
+	@ManyToOne //muitos para 1
 	@JoinColumn(name = "codigo_pessoa")//coluna responsavel pelo relacionamento
 	private Pessoa pessoa;
 
@@ -116,6 +121,14 @@ public class Lancamento {
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
+	}
+	
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
 	}
 
 	@Override

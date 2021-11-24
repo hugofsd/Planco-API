@@ -13,7 +13,15 @@ public class LancamentoFilter {
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataVencimentoAte;
-
+	
+	private Long codigo;
+	
+	public Long getCodigo() {
+		return codigo;
+	}
+	public void setCodigo(Long codigo) {
+		this.codigo = codigo;
+	}
 	public String getDescricao() {
 		return descricao;
 	}
